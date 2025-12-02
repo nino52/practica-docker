@@ -20,15 +20,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 2. Build image
+      # 2. Build Docker image
       - name: Build Docker image
         run: docker build -t luis5252/practica-php:latest .
 
-      # 3. Push image to Docker Hub
+      # 3. Push Docker image
       - name: Push Docker image
         run: docker push luis5252/practica-php:latest
 
-      # 4. Trigger deploy en Render
+      # 4. Trigger Render deploy
       - name: Trigger Render Deploy
         run: |
           curl -X POST \
