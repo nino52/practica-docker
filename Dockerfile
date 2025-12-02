@@ -1,3 +1,7 @@
 FROM php:8.2-apache
 
-RUN docker-php-ext-install pdo pdo_mysql
+# Copiar archivos de la carpeta src al servidor Apache
+COPY src/ /var/www/html/
+
+# Dar permisos
+RUN chown -R www-data:www-data /var/www/html
