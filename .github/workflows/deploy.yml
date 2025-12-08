@@ -1,4 +1,4 @@
-name: CI/CD PHP Docker + Render
+name: CI/CD PHP Docker Hub + Render
 
 on:
   push:
@@ -10,27 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout
+      # 1️⃣ Checkout del repositorio
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Login en Docker Hub
       - name: 🔐 Login Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 🏗️ Build Docker Image
+      # 3️⃣ Construir imagen Docker
+      - name: 🏗️ Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/practica-php:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/practica-php:latest .
 
-      - name: 📤 Push Docker Image
+      # 4️⃣ Subir imagen a Docker Hub
+      - name: 📤 Push Docker image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/practica-php:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/practica-php:latest
 
-      # ✅ ESTE PASO ES LA CLAVE
+      # 5️⃣ Instalar curl (requerido para Render API)
       - name: 🔧 Install curl
         run: sudo apt-get update && sudo apt-get install -y curl
 
+      # 6️⃣ Deploy automático en Render
       - name: 🚀 Deploy to Render
         run: |
           curl -X POST \
