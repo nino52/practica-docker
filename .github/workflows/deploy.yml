@@ -28,10 +28,12 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/practica-php:latest
 
       - name: 🔧 Install curl
-        run: sudo apt-get update && sudo apt-get install -y curl
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
 
       - name: 🚀 Deploy to Render
         run: |
           curl -sS -X POST \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"
